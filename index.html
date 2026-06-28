@@ -661,7 +661,7 @@ footer .fnote{font-size:.85rem;opacity:.75;max-width:50ch;margin:14px auto 0}
   </div>
 
   <h3>סיור מהיר במסך</h3>
-  <p>ככה ייראה המסך הראשי: בצד אחד כותבים מה רוצים, ובצד השני רואים את התוצאה החיה. אל תיבהלו מכפתורים — אנחנו צריכים רק את שני האזורים האלה.</p>
+  <p>במסך הראשון תראו תיבה אחת גדולה במרכז, עם הכיתוב <code>Describe an app and let Gemini do the rest</code> (״תארו אפליקציה ותנו ל-Gemini לעשות את השאר״). זה כל מה שצריך. ברגע שתכתבו בקשה ותלחצו <code>Build</code>, המסך מתפצל לשניים: הבקשה שלכם בצד אחד, והאפליקציה החיה בצד השני (בלשונית <code>Preview</code>). אל תיבהלו משאר הכפתורים — צריך בעצם רק את התיבה הזו. ככה ייראה המסך אחרי שהאפליקציה נבנית:</p>
   <div class="live">
     <div class="live-in"><span class="ttl">⌨️ כאן כותבים מה רוצים</span>
       <div class="bubble">תאר/י כאן את האפליקציה שלך בשפה חופשית...</div></div>
@@ -670,7 +670,7 @@ footer .fnote{font-size:.85rem;opacity:.75;max-width:50ch;margin:14px auto 0}
       <div class="win-body" style="display:flex;align-items:center;justify-content:center;color:var(--ink-mute);text-align:center;font-size:.9rem">כאן רואים את<br>האפליקציה שלכם<br>קמה לחיים ✨</div></div>
   </div>
 
-  <div class="tip dont"><span class="ti">🚫</span><div><span class="tt">אל תתחילו מהמקום הלא נכון</span><p>אם אתם רואים אפשרויות כמו <code>API Keys</code> או הגדרות מתקדמות — תתעלמו מהן בינתיים. הן מבלבלות ולא צריך אותן עכשיו. לחצו פשוט על <code>Build</code>.</p></div></div>
+  <div class="tip dont"><span class="ti">🚫</span><div><span class="tt">אל תתחילו מהמקום הלא נכון</span><p>בתפריט הצד יש כמה אפשרויות (<code>Playground</code>, <code>Dashboard</code>, הגדרות) — תתעלמו מהן בינתיים, הן מבלבלות. אתם רוצים את <code>New app</code> (אפליקציה חדשה): כותבים בתיבה ולוחצים <code>Build</code>. זהו.</p></div></div>
 
   <div class="recap"><span class="ri">🎉</span><div><b>מה הרווחתם:</b> אתם בתוך הכלי, מחוברים, ומוכנים לבנות.</div><span class="bill">עדיין ₪0</span></div>
 </section>
@@ -682,7 +682,7 @@ footer .fnote{font-size:.85rem;opacity:.75;max-width:50ch;margin:14px auto 0}
   <p class="lead">זהו הרגע. נבנה יחד אפליקציה אמיתית — <strong>"דף הקישורים האישי שלי"</strong>: עמוד אינטרנט קטן עם השם שלכם, תמונה, וכמה כפתורים. בחרנו אותו כי הוא יפה, אישי, ואפשר לשתף אותו עם כולם.</p>
 
   <h3>שלב ראשון: מעתיקים את הפרומפט הזה</h3>
-  <p><button class="term" data-term="prompt">פרומפט</button> הוא פשוט הבקשה שאתם כותבים לבינה המלאכותית. הכינו לכם אחד מוכן — לחצו "העתקתי", הדביקו ב-AI Studio בתיבת ה-Build, והחליפו את מה שבסוגריים בפרטים שלכם:</p>
+  <p><button class="term" data-term="prompt">פרומפט</button> הוא פשוט הבקשה שאתם כותבים לבינה המלאכותית. הכינו לכם אחד מוכן — לחצו "העתקתי", הדביקו בתיבת התיאור הגדולה ב-AI Studio (מסך <code>New app</code>), והחליפו את מה שבסוגריים בפרטים שלכם:</p>
   <div class="prompt">
     <div class="ph"><span class="lbl">📋 הפרומפט הראשון שלכם</span><button class="copy-btn" data-copy>העתקתי</button></div>
     <textarea rows="5" spellcheck="false">תבנה לי דף קישורים אישי בעברית. למעלה: תמונה עגולה, השם שלי "[השם שלכם]", ותת-כותרת "[מה אתם עושים]". מתחת: שלושה כפתורים גדולים וברורים — "האתר שלי", "אינסטגרם", ו"דברו איתי בוואטסאפ". עיצוב נקי, צבעים חמים, ושיתאים גם לטלפון.</textarea>
@@ -703,8 +703,8 @@ footer .fnote{font-size:.85rem;opacity:.75;max-width:50ch;margin:14px auto 0}
       <div class="cl-ring" id="clRing"><div class="inner" id="clRingTxt">0%</div></div>
       <div class="t"><b id="clTitle">בואו נתחיל!</b><span id="clCount">0 מתוך 5 שלבים</span></div>
     </div>
-    <label class="cl-item"><input type="checkbox" data-ck="1"><span class="ci"><b>לחצתי על Build</b> והדבקתי את הפרומפט בתיבה.</span></label>
-    <label class="cl-item"><input type="checkbox" data-ck="2"><span class="ci"><b>לחצתי "הרץ" (Run / חץ)</b> וחיכיתי שה-AI יבנה. (הוא כותב עכשיו את הקוד בשבילכם 🪄)</span></label>
+    <label class="cl-item"><input type="checkbox" data-ck="1"><span class="ci"><b>הדבקתי את הפרומפט</b> בתיבת התיאור (במסך <code>New app</code>).</span></label>
+    <label class="cl-item"><input type="checkbox" data-ck="2"><span class="ci"><b>לחצתי על הכפתור <code>Build</code></b> (או <code>Ctrl+Enter</code>) וחיכיתי שה-AI יבנה. (הוא כותב עכשיו את הקוד בשבילכם 🪄)</span></label>
     <label class="cl-item"><input type="checkbox" data-ck="3"><span class="ci"><b>ראיתי תצוגה חיה</b> של הדף שלי. זה רגע ה-"וואו" 🎉</span></label>
     <label class="cl-item"><input type="checkbox" data-ck="4"><span class="ci"><b>החלפתי את הפרטים</b> בסוגריים בשם ובכיתוב האמיתיים שלי.</span></label>
     <label class="cl-item"><input type="checkbox" data-ck="5"><span class="ci"><b>ביקשתי שינוי ראשון</b> — כתבתי בצ'אט "תוסיף תמונה שלי למעלה" וראיתי שזה עובד.</span></label>
@@ -724,7 +724,7 @@ footer .fnote{font-size:.85rem;opacity:.75;max-width:50ch;margin:14px auto 0}
 
   <h3>שלוש דרכים לבקש שינוי</h3>
   <div class="flow">
-    <div class="fstep"><span class="sn">1</span><div class="sc"><b>בכתב, בצ'אט</b> — פשוט כותבים: "תשנה את צבע הרקע לכחול בהיר". הדרך הכי נפוצה.</div></div>
+    <div class="fstep"><span class="sn">1</span><div class="sc"><b>בכתב, בצ'אט</b> — בתיבה שכתוב בה <code>Make changes, add new features, ask for anything</code> פשוט כותבים: "תשנה את צבע הרקע לכחול בהיר". הדרך הכי נפוצה.</div></div>
     <div class="fstep"><span class="sn">2</span><div class="sc"><b>סימון על המסך (Annotation)</b> — מצביעים על אלמנט ומסמנים אותו, ואומרים מה לשנות בו. כמו לצייר חץ על תמונה.</div></div>
     <div class="fstep"><span class="sn">3</span><div class="sc"><b>מצב עיצוב (Design Mode)</b> — לוחצים על אלמנט (כמו כפתור) ומשנים את הצבע או הגודל ישירות, בלי לכתוב כלום.</div></div>
   </div>
@@ -742,7 +742,9 @@ footer .fnote{font-size:.85rem;opacity:.75;max-width:50ch;margin:14px auto 0}
 <section id="ch7">
   <div class="sec-head"><span class="sec-num">7</span><h2>כשמשהו משתבש (וזה בסדר גמור)</h2></div>
   <div class="meta-chips"><span class="mchip">⏱️ 3 דקות</span><span class="mchip">😊 קל</span><span class="mchip">🩹 הרגעה</span></div>
-  <p class="lead">טעויות הן חלק מהמשחק, לא סימן שעשיתם משהו לא בסדר. גם מתכנתים ותיקים נתקלים בהן כל הזמן. הנה שלוש התקלות הנפוצות — וכמה פשוט לפתור אותן.</p>
+  <p class="lead">טעויות הן חלק מהמשחק, לא סימן שעשיתם משהו לא בסדר. גם מתכנתים ותיקים נתקלים בהן כל הזמן. הנה התקלות הנפוצות — וכמה פשוט לפתור אותן.</p>
+
+  <div class="tip note"><span class="ti">🔁</span><div><span class="tt">"An internal error occurred" / שגיאה פנימית</span><p>הודעה כזו אומרת שמשהו השתבש בצד של גוגל — קורה לא מעט (גם לנו זה קרה תוך כדי בנייה). הפתרון: ללחוץ <code>Retry</code> (נסה שוב), ואם זה ממשיך — לרענן את הדף או לחכות כמה דקות. זה כמעט תמיד זמני, ולא משהו שאתם עשיתם.</p></div></div>
 
   <div class="tip note"><span class="ti">⏳</span><div><span class="tt">"שגיאת מכסה" / הודעה עם המספר 429</span><p>זה אומר שביקשתם יותר מדי, מהר מדי. <button class="term" data-term="quota">המכסה החינמית</button> נגמרה לרגע. הפתרון: לחכות דקה ולנסות שוב. זה לא עולה כסף וזה לא תקלה אצלכם.</p></div></div>
 
@@ -760,7 +762,7 @@ footer .fnote{font-size:.85rem;opacity:.75;max-width:50ch;margin:14px auto 0}
   <p class="lead">בניתם משהו — עכשיו בואו נהפוך אותו לכתובת אינטרנט אמיתית שאפשר לשלוח לכל אחד. זה נקרא <button class="term" data-term="deploy">פריסה (Deploy)</button>, וזו לחיצת כפתור.</p>
 
   <div class="flow">
-    <div class="fstep"><span class="sn">1</span><div class="sc"><b>מחפשים את כפתור הפרסום</b> — בדרך כלל כתוב עליו <code>Deploy</code> או <code>Share</code>.</div></div>
+    <div class="fstep"><span class="sn">1</span><div class="sc"><b>מחפשים את כפתורי הפרסום</b> למעלה במסך — <code>Share</code> (שיתוף) לקישור מהיר, או <code>Publish</code> (פרסום) להעלאה מלאה.</div></div>
     <div class="fstep"><span class="sn">2</span><div class="sc"><b>לוחצים פעם אחת</b> ומחכים כמה רגעים בזמן שגוגל מעלה את האפליקציה לאוויר.</div></div>
     <div class="fstep"><span class="sn coral">3</span><div class="sc"><b>מקבלים כתובת אינטרנט אמיתית</b> — קישור שאפשר לשלוח לכל אחד, מכל מקום בעולם.</div></div>
   </div>
