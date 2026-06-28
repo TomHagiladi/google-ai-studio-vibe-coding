@@ -1,0 +1,1040 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>וייב קודינג ב-Google AI Studio — המדריך לאנשים רגילים</title>
+<meta name="description" content="מדריך צעד-אחר-צעד בעברית פשוטה: איך לבנות אפליקציה אמיתית ב-Google AI Studio בלי לדעת לתכנת, בלי כרטיס אשראי. למתחילים גמורים.">
+<meta name="author" content="תום הגלעדי">
+<meta name="theme-color" content="#0e6b6b">
+
+<!-- Open Graph (שיתוף בוואטסאפ/פייסבוק) -->
+<meta property="og:type" content="website">
+<meta property="og:locale" content="he_IL">
+<meta property="og:title" content="וייב קודינג ב-Google AI Studio — המדריך לאנשים רגילים">
+<meta property="og:description" content="תוך 10 דקות תהיה לכם אפליקציה — בלי קוד, בלי כרטיס אשראי. מדריך בעברית פשוטה למתחילים גמורים.">
+<meta property="og:url" content="https://tomhagiladi.github.io/google-ai-studio-vibe-coding/">
+
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✨</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Assistant:wght@400;500;600;700;800&family=Frank+Ruhl+Libre:wght@500;700;800;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+/* ═══════════════════════════════════════════════════════════
+   משתני עיצוב — Design Tokens
+   ═══════════════════════════════════════════════════════════ */
+:root{
+  /* פלטה בהירה — חמה, מרגיעה, אמינה */
+  --cream:        oklch(98% 0.012 85);     /* רקע קרם חם */
+  --cream-2:      oklch(96% 0.018 80);     /* רקע משני */
+  --surface:      oklch(100% 0 0);         /* כרטיסים */
+  --ink:          oklch(25% 0.012 60);     /* טקסט ראשי */
+  --ink-soft:     oklch(43% 0.012 60);     /* טקסט משני */
+  --ink-mute:     oklch(58% 0.01 60);      /* טקסט עמום */
+  --line:         oklch(89% 0.015 75);     /* קווי הפרדה */
+  --line-soft:    oklch(93% 0.012 75);
+
+  --teal:         oklch(52% 0.10 195);     /* ראשי — אמון */
+  --teal-deep:    oklch(42% 0.09 198);
+  --teal-pale:    oklch(95% 0.025 195);
+  --teal-tint:    oklch(90% 0.04 195);
+
+  --coral:        oklch(70% 0.145 38);     /* אקסנט חם — CTA ורגעי הצלחה */
+  --coral-deep:   oklch(58% 0.15 35);
+  --coral-pale:   oklch(95% 0.03 45);
+
+  --green:        oklch(60% 0.13 150);     /* חינם / הצלחה */
+  --green-deep:   oklch(48% 0.12 152);
+  --green-pale:   oklch(95% 0.04 150);
+
+  --warn:         oklch(58% 0.12 45);      /* אזהרה — טרהקוטה עמום, לא אדום צועק */
+  --warn-pale:    oklch(95% 0.035 50);
+
+  --gold:         oklch(72% 0.13 75);      /* תגי "מתעדכן" */
+  --gold-pale:    oklch(95% 0.05 85);
+
+  /* טיפוגרפיה */
+  --f-display: 'Frank Ruhl Libre', Georgia, serif;
+  --f-body:    'Assistant', 'Segoe UI', sans-serif;
+  --f-mono:    'Space Mono', 'Cascadia Code', monospace;
+
+  /* מרווחים, רדיוסים, צללים */
+  --r-sm: 8px;  --r: 14px;  --r-lg: 22px;  --r-pill: 999px;
+  --sh-sm: 0 1px 3px oklch(40% 0.03 60 / .07);
+  --sh:    0 6px 22px oklch(40% 0.03 60 / .09);
+  --sh-lg: 0 14px 44px oklch(40% 0.04 60 / .13);
+  --maxw: 920px;
+  --t-fast: 140ms ease;
+  --t: 260ms cubic-bezier(.4,0,.2,1);
+}
+
+[data-theme="dark"]{
+  --cream:        oklch(20% 0.012 250);
+  --cream-2:      oklch(24% 0.014 250);
+  --surface:      oklch(26% 0.015 250);
+  --ink:          oklch(93% 0.008 250);
+  --ink-soft:     oklch(78% 0.01 250);
+  --ink-mute:     oklch(64% 0.01 250);
+  --line:         oklch(36% 0.015 250);
+  --line-soft:    oklch(32% 0.013 250);
+
+  --teal:         oklch(72% 0.10 195);
+  --teal-deep:    oklch(80% 0.09 195);
+  --teal-pale:    oklch(30% 0.04 200);
+  --teal-tint:    oklch(36% 0.05 200);
+
+  --coral:        oklch(76% 0.13 40);
+  --coral-deep:   oklch(80% 0.12 40);
+  --coral-pale:   oklch(32% 0.06 40);
+
+  --green:        oklch(72% 0.13 152);
+  --green-deep:   oklch(80% 0.12 152);
+  --green-pale:   oklch(30% 0.05 152);
+
+  --warn:         oklch(74% 0.11 50);
+  --warn-pale:    oklch(32% 0.05 50);
+
+  --gold:         oklch(80% 0.12 80);
+  --gold-pale:    oklch(34% 0.06 85);
+
+  --sh-sm: 0 1px 3px oklch(0% 0 0 / .3);
+  --sh:    0 6px 22px oklch(0% 0 0 / .4);
+  --sh-lg: 0 14px 44px oklch(0% 0 0 / .5);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   בסיס
+   ═══════════════════════════════════════════════════════════ */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:84px;font-size:clamp(16px,1vw + 14px,18px)}
+body{
+  font-family:var(--f-body);
+  line-height:1.75;
+  color:var(--ink);
+  background:var(--cream);
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+  overflow-x:hidden;
+  transition:background var(--t),color var(--t);
+}
+h1,h2,h3,h4{font-family:var(--f-display);line-height:1.25;font-weight:800;letter-spacing:-.01em}
+p{margin:0 0 1em}
+a{color:var(--teal-deep);text-decoration-thickness:2px;text-underline-offset:3px}
+a:hover{color:var(--coral-deep)}
+strong{font-weight:700;color:var(--ink)}
+:focus-visible{outline:3px solid var(--coral);outline-offset:3px;border-radius:4px}
+
+/* טקסט אנגלי/כתובות — בידוד כיווניות LTR */
+.ltr{direction:ltr;unicode-bidi:isolate;display:inline-block}
+code,.code{font-family:var(--f-mono);font-size:.86em;background:var(--cream-2);
+  padding:.12em .45em;border-radius:6px;direction:ltr;unicode-bidi:isolate;
+  border:1px solid var(--line-soft);white-space:nowrap}
+
+/* דילוג לתוכן (נגישות) */
+.skip{position:absolute;right:-9999px;top:8px;z-index:200;background:var(--teal-deep);
+  color:#fff;padding:10px 18px;border-radius:var(--r-sm);font-weight:700}
+.skip:focus{right:12px}
+
+/* ═══════════════════════════════════════════════════════════
+   פס התקדמות עליון (גלילה)
+   ═══════════════════════════════════════════════════════════ */
+.scroll-progress{position:fixed;top:0;right:0;left:0;height:4px;z-index:120;
+  background:linear-gradient(90deg,var(--teal),var(--coral));
+  transform:scaleX(0);transform-origin:right;transition:transform 80ms linear}
+
+/* ═══════════════════════════════════════════════════════════
+   סרגל עליון
+   ═══════════════════════════════════════════════════════════ */
+.topbar{position:fixed;top:0;right:0;left:0;height:64px;z-index:110;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 clamp(16px,4vw,40px);
+  background:oklch(98% 0.012 85 / .82);backdrop-filter:blur(14px);
+  -webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--line-soft)}
+[data-theme="dark"] .topbar{background:oklch(20% 0.012 250 / .82)}
+.brand{display:flex;align-items:center;gap:10px;font-family:var(--f-display);
+  font-weight:800;font-size:1.05rem;color:var(--teal-deep)}
+.brand img{height:34px;width:auto;border-radius:8px}
+.brand .sub{display:none;font-weight:600;font-size:.78rem;color:var(--ink-mute);
+  font-family:var(--f-body)}
+@media(min-width:560px){.brand .sub{display:inline}}
+.topbar-actions{display:flex;align-items:center;gap:8px}
+.bill-pill{display:flex;align-items:center;gap:7px;background:var(--green-pale);
+  color:var(--green-deep);border:1px solid var(--green);font-weight:700;
+  padding:6px 12px;border-radius:var(--r-pill);font-size:.82rem;white-space:nowrap}
+.bill-pill .dot{width:8px;height:8px;border-radius:50%;background:var(--green);
+  box-shadow:0 0 0 4px var(--green-pale)}
+.bill-pill .lbl{display:none}
+@media(min-width:680px){.bill-pill .lbl{display:inline}}
+.icon-btn{width:42px;height:42px;border:1px solid var(--line);border-radius:var(--r-sm);
+  background:var(--surface);color:var(--ink-soft);cursor:pointer;font-size:1.2rem;
+  display:flex;align-items:center;justify-content:center;transition:all var(--t-fast)}
+.icon-btn:hover{background:var(--cream-2);color:var(--ink);border-color:var(--teal)}
+
+/* ═══════════════════════════════════════════════════════════
+   פריסת תוכן
+   ═══════════════════════════════════════════════════════════ */
+main{max-width:var(--maxw);margin:0 auto;padding:0 clamp(16px,4vw,28px) 80px}
+section{scroll-margin-top:84px;padding:clamp(40px,7vw,72px) 0;
+  border-bottom:1px solid var(--line-soft)}
+section:last-of-type{border-bottom:none}
+.lead{font-size:1.15rem;color:var(--ink-soft)}
+
+/* ═══════════════════════════════════════════════════════════
+   HERO
+   ═══════════════════════════════════════════════════════════ */
+.hero{max-width:var(--maxw);margin:0 auto;padding:clamp(96px,16vw,140px) clamp(16px,4vw,28px) clamp(40px,7vw,64px);
+  text-align:center}
+.hero .kicker{display:inline-block;background:var(--teal-pale);color:var(--teal-deep);
+  font-weight:700;font-size:.85rem;padding:7px 16px;border-radius:var(--r-pill);
+  margin-bottom:22px;border:1px solid var(--teal-tint)}
+.hero h1{font-size:clamp(2rem,6vw,3.4rem);font-weight:900;color:var(--ink);
+  max-width:16ch;margin:0 auto .5em;line-height:1.12}
+.hero h1 .hl{color:var(--teal-deep);position:relative;white-space:nowrap}
+.hero h1 .hl-coral{color:var(--coral-deep)}
+.hero .tag{font-size:clamp(1.05rem,2.5vw,1.35rem);color:var(--ink-soft);
+  max-width:34ch;margin:0 auto 30px}
+.chips{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-bottom:34px}
+.chip{display:inline-flex;align-items:center;gap:7px;background:var(--surface);
+  border:1px solid var(--line);border-radius:var(--r-pill);padding:9px 16px;
+  font-weight:600;font-size:.92rem;color:var(--ink-soft);box-shadow:var(--sh-sm)}
+.chip .ic{font-size:1.05rem}
+.chip.free{background:var(--green-pale);border-color:var(--green);color:var(--green-deep)}
+.btn{display:inline-flex;align-items:center;gap:10px;font-family:var(--f-body);
+  font-weight:800;font-size:1.1rem;cursor:pointer;border:none;border-radius:var(--r-pill);
+  padding:15px 34px;transition:transform var(--t-fast),box-shadow var(--t-fast),background var(--t-fast)}
+.btn-primary{background:var(--coral);color:#fff;box-shadow:var(--sh)}
+.btn-primary:hover{background:var(--coral-deep);transform:translateY(-2px);box-shadow:var(--sh-lg);color:#fff}
+.btn-ghost{background:var(--surface);color:var(--teal-deep);border:2px solid var(--teal);font-size:1rem;padding:12px 26px}
+.btn-ghost:hover{background:var(--teal-pale)}
+.hero-cta{display:flex;flex-wrap:wrap;gap:14px;justify-content:center;align-items:center}
+.datestamp{margin-top:26px;font-size:.84rem;color:var(--ink-mute)}
+
+/* ═══════════════════════════════════════════════════════════
+   מסלול מהיר (שכבה 1)
+   ═══════════════════════════════════════════════════════════ */
+.fasttrack{max-width:var(--maxw);margin:0 auto clamp(20px,5vw,40px);
+  padding:0 clamp(16px,4vw,28px)}
+.fasttrack-card{background:linear-gradient(135deg,var(--teal-pale),var(--cream-2));
+  border:1px solid var(--teal-tint);border-radius:var(--r-lg);
+  padding:clamp(22px,4vw,34px);box-shadow:var(--sh)}
+.fasttrack-card h2{font-size:1.4rem;margin-bottom:6px;color:var(--teal-deep)}
+.fasttrack-card>p{color:var(--ink-soft);margin-bottom:20px}
+.ft-steps{display:grid;gap:12px;grid-template-columns:1fr}
+@media(min-width:680px){.ft-steps{grid-template-columns:repeat(3,1fr)}}
+.ft-step{display:flex;align-items:center;gap:12px;background:var(--surface);
+  border:1px solid var(--line);border-radius:var(--r);padding:14px 16px;
+  text-decoration:none;color:var(--ink);transition:all var(--t-fast)}
+.ft-step:hover{border-color:var(--coral);transform:translateY(-2px);box-shadow:var(--sh-sm);color:var(--ink)}
+.ft-step .n{flex:none;width:34px;height:34px;border-radius:50%;background:var(--coral);
+  color:#fff;font-weight:800;display:flex;align-items:center;justify-content:center;font-family:var(--f-display)}
+.ft-step .tx b{display:block;font-weight:700}
+.ft-step .tx span{font-size:.82rem;color:var(--ink-mute)}
+
+/* ═══════════════════════════════════════════════════════════
+   מד התקדמות-מסע (אבני דרך)
+   ═══════════════════════════════════════════════════════════ */
+.journey{position:sticky;top:64px;z-index:80;background:oklch(98% 0.012 85 / .9);
+  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--line-soft);padding:10px clamp(16px,4vw,28px)}
+[data-theme="dark"] .journey{background:oklch(20% 0.012 250 / .9)}
+.journey-inner{max-width:var(--maxw);margin:0 auto;display:flex;gap:6px;
+  align-items:center;justify-content:space-between;overflow-x:auto;scrollbar-width:none}
+.journey-inner::-webkit-scrollbar{display:none}
+.mile{display:flex;align-items:center;gap:7px;font-size:.82rem;font-weight:600;
+  color:var(--ink-mute);white-space:nowrap;padding:4px 6px;border-radius:var(--r-pill);
+  transition:all var(--t)}
+.mile .mk{width:18px;height:18px;border-radius:50%;border:2px solid var(--line);
+  flex:none;display:flex;align-items:center;justify-content:center;font-size:.6rem;
+  background:var(--surface);transition:all var(--t)}
+.mile.on{color:var(--teal-deep)}
+.mile.on .mk{background:var(--teal);border-color:var(--teal);color:#fff}
+.mile-sep{flex:1;height:2px;background:var(--line-soft);min-width:8px}
+
+/* ═══════════════════════════════════════════════════════════
+   כותרות פרקים + תגיות
+   ═══════════════════════════════════════════════════════════ */
+.sec-head{display:flex;align-items:flex-start;gap:16px;margin-bottom:8px}
+.sec-num{flex:none;font-family:var(--f-display);font-weight:900;font-size:1.5rem;
+  width:52px;height:52px;border-radius:var(--r);background:var(--teal-deep);color:#fff;
+  display:flex;align-items:center;justify-content:center;box-shadow:var(--sh-sm)}
+.sec-head h2{font-size:clamp(1.5rem,4vw,2.1rem);color:var(--ink);flex:1;padding-top:4px}
+.meta-chips{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 22px 0;padding-right:68px}
+.mchip{font-size:.78rem;font-weight:600;color:var(--ink-mute);background:var(--cream-2);
+  border:1px solid var(--line-soft);border-radius:var(--r-pill);padding:3px 11px}
+.mchip.free{color:var(--green-deep);background:var(--green-pale);border-color:var(--green)}
+section h3{font-size:1.25rem;margin:30px 0 10px;color:var(--ink)}
+
+/* ═══════════════════════════════════════════════════════════
+   ★ מהלך העיצוב המייחד: "מסך חי" — Input → Output
+   ═══════════════════════════════════════════════════════════ */
+.live{display:grid;gap:14px;align-items:center;margin:24px 0;
+  grid-template-columns:1fr;}
+@media(min-width:720px){.live{grid-template-columns:1fr auto 1fr}}
+.live-in,.live-out{border-radius:var(--r-lg);box-shadow:var(--sh);overflow:hidden}
+.live-in{background:var(--teal-deep);color:#fff;padding:0}
+.live-in .ttl{display:flex;align-items:center;gap:8px;font-size:.78rem;font-weight:700;
+  opacity:.85;padding:12px 16px 0}
+.live-in .bubble{background:oklch(100% 0 0 / .14);margin:10px 16px 16px;
+  border-radius:14px 14px 14px 4px;padding:14px 16px;font-size:1.02rem;line-height:1.6}
+.live-in .bubble .you{font-size:.75rem;opacity:.8;display:block;margin-bottom:4px}
+.live-arrow{display:flex;flex-direction:column;align-items:center;gap:4px;
+  color:var(--coral-deep);font-weight:700;font-size:.8rem}
+.live-arrow .a{font-size:1.6rem;line-height:1}
+@media(max-width:719px){.live-arrow{flex-direction:row;justify-content:center}
+  .live-arrow .a{transform:rotate(90deg)}}
+/* חלון דפדפן מדומה */
+.win{background:var(--surface);border:1px solid var(--line)}
+.win-bar{display:flex;align-items:center;gap:6px;padding:9px 12px;background:var(--cream-2);
+  border-bottom:1px solid var(--line-soft)}
+.win-bar .d{width:10px;height:10px;border-radius:50%}
+.win-bar .d1{background:#ff6259}.win-bar .d2{background:#ffbd2e}.win-bar .d3{background:#28c840}
+.win-bar .url{flex:1;background:var(--surface);border:1px solid var(--line-soft);
+  border-radius:var(--r-pill);font-size:.7rem;color:var(--ink-mute);padding:3px 12px;
+  text-align:center;direction:ltr}
+.win-body{padding:18px 16px;min-height:120px}
+/* תצוגת "דף קישורים" מדומה לדוגמה החוזרת */
+.demo-linkpage{text-align:center}
+.demo-linkpage .ava{width:54px;height:54px;border-radius:50%;margin:0 auto 8px;
+  background:linear-gradient(135deg,var(--teal),var(--coral));display:flex;
+  align-items:center;justify-content:center;color:#fff;font-size:1.4rem;font-weight:800;font-family:var(--f-display)}
+.demo-linkpage .nm{font-weight:800;font-family:var(--f-display);margin-bottom:2px}
+.demo-linkpage .ro{font-size:.78rem;color:var(--ink-mute);margin-bottom:12px}
+.demo-linkpage .lk{display:block;background:var(--teal-pale);color:var(--teal-deep);
+  border:1px solid var(--teal-tint);border-radius:var(--r-pill);padding:8px;margin:7px auto;
+  font-weight:700;font-size:.86rem;max-width:200px}
+.demo-linkpage .lk.c{background:var(--coral-pale);color:var(--coral-deep);border-color:var(--coral)}
+
+/* ═══════════════════════════════════════════════════════════
+   צעדים ממוספרים
+   ═══════════════════════════════════════════════════════════ */
+.flow{display:flex;flex-direction:column;gap:4px;margin:20px 0}
+.fstep{display:flex;gap:16px;padding:14px 0;align-items:flex-start}
+.fstep .sn{flex:none;width:38px;height:38px;border-radius:50%;background:var(--teal);
+  color:#fff;font-weight:800;font-family:var(--f-display);display:flex;
+  align-items:center;justify-content:center;box-shadow:var(--sh-sm)}
+.fstep .sn.coral{background:var(--coral)}
+.fstep .sc{flex:1;padding-top:5px}
+.fstep .sc b{color:var(--ink)}
+
+/* ═══════════════════════════════════════════════════════════
+   קופסאות עצה: כן / לא / שימו לב
+   ═══════════════════════════════════════════════════════════ */
+.tip{border-radius:var(--r);padding:16px 18px 16px 18px;margin:18px 0;
+  border:1px solid;border-right-width:5px;display:flex;gap:12px;align-items:flex-start}
+.tip .ti{font-size:1.3rem;flex:none;line-height:1.4}
+.tip .tt{font-weight:800;display:block;margin-bottom:3px}
+.tip.do{background:var(--green-pale);border-color:var(--green)}
+.tip.do .tt{color:var(--green-deep)}
+.tip.dont{background:var(--warn-pale);border-color:var(--warn)}
+.tip.dont .tt{color:var(--warn)}
+.tip.note{background:var(--teal-pale);border-color:var(--teal)}
+.tip.note .tt{color:var(--teal-deep)}
+.tip p:last-child{margin-bottom:0}
+
+/* רשת כן/לא */
+.dogrid{display:grid;gap:14px;grid-template-columns:1fr;margin:20px 0}
+@media(min-width:640px){.dogrid{grid-template-columns:1fr 1fr}}
+
+/* "במילים פשוטות" */
+.plain{background:var(--cream-2);border:1px dashed var(--teal);border-radius:var(--r);
+  padding:16px 18px;margin:18px 0;position:relative}
+.plain .pl{display:inline-flex;align-items:center;gap:6px;font-weight:800;color:var(--teal-deep);
+  font-size:.85rem;margin-bottom:6px}
+.plain p:last-child{margin-bottom:0}
+
+/* קופסת "מה הרווחתם" */
+.recap{background:linear-gradient(135deg,var(--green-pale),var(--cream-2));
+  border:1px solid var(--green);border-radius:var(--r);padding:16px 20px;margin:24px 0 0;
+  display:flex;gap:12px;align-items:center}
+.recap .ri{font-size:1.6rem;flex:none}
+.recap b{color:var(--green-deep)}
+.recap .bill{margin-right:auto;background:var(--green);color:#fff;font-weight:800;
+  border-radius:var(--r-pill);padding:5px 14px;font-size:.82rem;white-space:nowrap}
+
+/* ═══════════════════════════════════════════════════════════
+   כרטיס השוואה (פרק 3)
+   ═══════════════════════════════════════════════════════════ */
+.compare{display:flex;flex-direction:column;gap:10px;margin:22px 0}
+.crow{display:flex;gap:14px;align-items:center;background:var(--surface);
+  border:1px solid var(--line);border-radius:var(--r);padding:14px 18px;transition:all var(--t)}
+.crow .cn{font-weight:800;font-family:var(--f-display);color:var(--ink);min-width:auto}
+.crow .cd{color:var(--ink-soft);font-size:.95rem}
+.crow .ct{margin-right:auto;font-size:.75rem;font-weight:700;padding:3px 10px;
+  border-radius:var(--r-pill);background:var(--cream-2);color:var(--ink-mute);white-space:nowrap}
+.crow.us{border-color:var(--coral);border-width:2px;background:var(--coral-pale);
+  box-shadow:var(--sh)}
+.crow.us .cn{color:var(--coral-deep)}
+.crow.us .ct{background:var(--coral);color:#fff}
+@media(max-width:560px){.crow{flex-wrap:wrap;gap:6px}.crow .cd{flex-basis:100%}}
+
+/* ═══════════════════════════════════════════════════════════
+   תיבת פרומפט (להעתקה) + מונח תנודתי
+   ═══════════════════════════════════════════════════════════ */
+.prompt{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);
+  margin:18px 0;overflow:hidden;box-shadow:var(--sh-sm)}
+.prompt .ph{display:flex;align-items:center;gap:8px;justify-content:space-between;
+  padding:10px 14px;background:var(--cream-2);border-bottom:1px solid var(--line-soft)}
+.prompt .ph .lbl{font-weight:700;font-size:.86rem;color:var(--ink-soft);display:flex;gap:7px;align-items:center}
+.prompt textarea{width:100%;border:none;background:transparent;resize:vertical;
+  font-family:var(--f-body);font-size:1rem;line-height:1.7;color:var(--ink);
+  padding:14px;min-height:70px;display:block}
+.prompt textarea:focus{outline:none}
+.copy-btn{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--teal);
+  background:var(--surface);color:var(--teal-deep);font-family:var(--f-body);font-weight:700;
+  font-size:.82rem;padding:6px 14px;border-radius:var(--r-pill);cursor:pointer;transition:all var(--t-fast)}
+.copy-btn:hover{background:var(--teal-pale)}
+.copy-btn.done{background:var(--green);border-color:var(--green);color:#fff}
+
+/* מונח תנודתי / קישור חי */
+.live-link{color:var(--gold);border-bottom:2px dotted var(--gold);font-weight:700;
+  text-decoration:none;white-space:nowrap}
+.live-link::after{content:" ↗";font-size:.85em}
+.live-link:hover{color:var(--coral-deep);border-color:var(--coral-deep)}
+.upd-tag{display:inline-block;font-size:.66rem;font-weight:800;color:var(--gold);
+  background:var(--gold-pale);border:1px solid var(--gold);border-radius:var(--r-pill);
+  padding:1px 7px;margin-inline-start:5px;vertical-align:middle;letter-spacing:.02em}
+
+/* כתובת אינטרנט להקלדה */
+.url-block{display:flex;align-items:center;gap:10px;background:var(--ink);
+  color:oklch(95% 0.01 195);border-radius:var(--r);padding:12px 16px;margin:14px 0;
+  direction:ltr;font-family:var(--f-mono);font-size:.95rem;justify-content:space-between}
+.url-block .u{overflow-x:auto;white-space:nowrap}
+
+/* ═══════════════════════════════════════════════════════════
+   מילון — tooltip
+   ═══════════════════════════════════════════════════════════ */
+.term{border-bottom:2px dotted var(--teal);cursor:help;font-weight:600;color:var(--teal-deep);
+  background:none;border-top:none;border-right:none;border-left:none;font:inherit;padding:0}
+.term:hover,.term:focus-visible{background:var(--teal-pale)}
+.glos-pop{position:fixed;z-index:200;max-width:min(320px,86vw);background:var(--ink);
+  color:var(--cream);border-radius:var(--r);padding:13px 16px;font-size:.9rem;line-height:1.6;
+  box-shadow:var(--sh-lg);opacity:0;pointer-events:none;transform:translateY(6px);
+  transition:opacity var(--t-fast),transform var(--t-fast)}
+.glos-pop.show{opacity:1;transform:translateY(0)}
+.glos-pop b{color:#fff}
+
+/* ═══════════════════════════════════════════════════════════
+   צ'קליסט "10 דקות"
+   ═══════════════════════════════════════════════════════════ */
+.checklist{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);
+  padding:clamp(18px,4vw,26px);margin:24px 0;box-shadow:var(--sh)}
+.cl-head{display:flex;align-items:center;gap:14px;margin-bottom:18px;flex-wrap:wrap}
+.cl-ring{--p:0;flex:none;width:60px;height:60px;border-radius:50%;
+  background:conic-gradient(var(--green) calc(var(--p)*1%),var(--line) 0);
+  display:flex;align-items:center;justify-content:center;transition:--p var(--t)}
+.cl-ring .inner{width:46px;height:46px;border-radius:50%;background:var(--surface);
+  display:flex;align-items:center;justify-content:center;font-weight:800;
+  font-family:var(--f-display);font-size:.95rem;color:var(--green-deep)}
+.cl-head .t b{display:block;font-family:var(--f-display);font-size:1.15rem;color:var(--ink)}
+.cl-head .t span{font-size:.86rem;color:var(--ink-mute)}
+.cl-item{display:flex;gap:12px;padding:12px;border-radius:var(--r);cursor:pointer;
+  align-items:flex-start;transition:background var(--t-fast)}
+.cl-item:hover{background:var(--cream-2)}
+.cl-item input{flex:none;width:24px;height:24px;margin-top:2px;accent-color:var(--green);cursor:pointer}
+.cl-item .ci{flex:1}
+.cl-item .ci b{transition:all var(--t-fast)}
+.cl-item.done .ci b{text-decoration:line-through;color:var(--ink-mute)}
+.cl-reset{margin-top:8px;font-size:.82rem;color:var(--ink-mute);background:none;border:none;
+  cursor:pointer;text-decoration:underline}
+
+/* ═══════════════════════════════════════════════════════════
+   FAQ + מילון נספח
+   ═══════════════════════════════════════════════════════════ */
+details.faq{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);
+  margin:10px 0;overflow:hidden}
+details.faq summary{cursor:pointer;padding:16px 20px;font-weight:700;font-size:1.05rem;
+  list-style:none;display:flex;justify-content:space-between;align-items:center;gap:12px;color:var(--ink)}
+details.faq summary::-webkit-details-marker{display:none}
+details.faq summary::after{content:"+";font-size:1.5rem;color:var(--teal);font-weight:400;flex:none;transition:transform var(--t-fast)}
+details.faq[open] summary::after{transform:rotate(45deg)}
+details.faq summary:hover{background:var(--cream-2)}
+details.faq .fa{padding:0 20px 18px;color:var(--ink-soft)}
+.glos-list{display:grid;gap:12px;grid-template-columns:1fr;margin-top:18px}
+@media(min-width:640px){.glos-list{grid-template-columns:1fr 1fr}}
+.glos-card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:15px 18px}
+.glos-card dt{font-weight:800;font-family:var(--f-display);color:var(--teal-deep);margin-bottom:4px;direction:rtl}
+.glos-card dt .en{font-family:var(--f-mono);font-size:.78rem;color:var(--ink-mute);direction:ltr;display:inline-block;margin-inline-start:6px}
+.glos-card dd{color:var(--ink-soft);font-size:.95rem}
+
+/* רעיונות בנייה (פרק 11) */
+.ideas{display:grid;gap:14px;grid-template-columns:1fr;margin:18px 0}
+@media(min-width:640px){.ideas{grid-template-columns:1fr 1fr}}
+.idea{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);
+  padding:16px 18px;display:flex;gap:12px;align-items:flex-start}
+.idea .ii{font-size:1.6rem;flex:none}
+.idea b{display:block;color:var(--ink);font-family:var(--f-display)}
+.idea span{font-size:.9rem;color:var(--ink-soft)}
+
+/* ═══════════════════════════════════════════════════════════
+   תיבת תשלום — "משלמים רק אם"
+   ═══════════════════════════════════════════════════════════ */
+.pay-when{display:grid;gap:14px;grid-template-columns:1fr;margin:22px 0}
+@media(min-width:760px){.pay-when{grid-template-columns:repeat(3,1fr)}}
+.pw{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);
+  padding:20px;text-align:center;box-shadow:var(--sh-sm)}
+.pw .pwl{font-family:var(--f-display);font-weight:900;font-size:1.3rem;color:var(--coral-deep);
+  width:44px;height:44px;border-radius:50%;background:var(--coral-pale);border:1px solid var(--coral);
+  display:flex;align-items:center;justify-content:center;margin:0 auto 12px}
+.pw b{display:block;margin-bottom:6px;color:var(--ink)}
+.pw span{font-size:.92rem;color:var(--ink-soft)}
+.bigfree{text-align:center;background:linear-gradient(135deg,var(--green-pale),var(--cream-2));
+  border:2px solid var(--green);border-radius:var(--r-lg);padding:clamp(24px,5vw,40px);margin:26px 0}
+.bigfree .num{font-family:var(--f-display);font-weight:900;font-size:clamp(2.6rem,9vw,4rem);
+  color:var(--green-deep);line-height:1}
+.bigfree p{font-size:1.1rem;color:var(--ink-soft);margin:8px 0 0}
+
+/* ═══════════════════════════════════════════════════════════
+   footer + back to top + toast
+   ═══════════════════════════════════════════════════════════ */
+footer{background:var(--ink);color:oklch(85% 0.01 60);text-align:center;
+  padding:48px 20px;margin-top:0}
+footer .fbrand{font-family:var(--f-display);font-weight:800;font-size:1.3rem;color:#fff;margin-bottom:8px}
+footer a{color:var(--coral)}
+footer .fnote{font-size:.85rem;opacity:.75;max-width:50ch;margin:14px auto 0}
+.to-top{position:fixed;bottom:22px;left:22px;z-index:90;width:48px;height:48px;border-radius:50%;
+  background:var(--teal-deep);color:#fff;border:none;cursor:pointer;font-size:1.3rem;box-shadow:var(--sh-lg);
+  opacity:0;pointer-events:none;transform:translateY(10px);transition:all var(--t)}
+.to-top.show{opacity:1;pointer-events:auto;transform:translateY(0)}
+.toast{position:fixed;bottom:26px;left:50%;transform:translateX(-50%) translateY(20px);z-index:200;
+  background:var(--ink);color:#fff;padding:12px 22px;border-radius:var(--r-pill);font-weight:700;
+  box-shadow:var(--sh-lg);opacity:0;pointer-events:none;transition:all var(--t)}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0}
+
+@media(prefers-reduced-motion:reduce){
+  *{animation:none!important;scroll-behavior:auto!important;transition-duration:.01ms!important}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">דלגו לתוכן הראשי</a>
+<div class="scroll-progress" id="progress" aria-hidden="true"></div>
+
+<!-- ═══ סרגל עליון ═══ -->
+<header class="topbar">
+  <div class="brand">
+    <img src="tom-hagiladi-logo.png" alt="הלוגו של תום הגלעדי">
+    <span>וייב קודינג<span class="sub"> · המדריך לאנשים רגילים</span></span>
+  </div>
+  <div class="topbar-actions">
+    <div class="bill-pill" id="billPill" title="כמה זה עולה לכם עד כה">
+      <span class="dot" aria-hidden="true"></span>
+      <span><span class="lbl">החשבון שלך: </span>₪0.00</span>
+    </div>
+    <button class="icon-btn" id="themeBtn" aria-label="מעבר בין מצב בהיר לכהה" title="מצב בהיר/כהה">🌙</button>
+  </div>
+</header>
+
+<!-- ═══ HERO ═══ -->
+<div class="hero">
+  <span class="kicker">✨ מדריך למתחילים גמורים · ללא ידע טכני</span>
+  <h1>תוך 10 דקות תהיה לכם <span class="hl">אפליקציה אמיתית</span> — בלי קוד, בלי <span class="hl-coral">כרטיס אשראי</span></h1>
+  <p class="tag">זה לא מסובך כמו שזה נשמע. אתם מתארים במילים מה אתם רוצים — והמחשב בונה את זה בשבילכם. בואו נעשה את זה יחד.</p>
+  <div class="chips">
+    <span class="chip free"><span class="ic">💸</span> חינם לגמרי</span>
+    <span class="chip"><span class="ic">⬇️</span> בלי להתקין כלום</span>
+    <span class="chip"><span class="ic">🧠</span> אפס ידע בתכנות</span>
+  </div>
+  <div class="hero-cta">
+    <a class="btn btn-primary" href="#ch1">בואו נתחיל →</a>
+    <a class="btn btn-ghost" href="#ch5">קפיצה ישר לבנייה</a>
+  </div>
+  <p class="datestamp">נכתב ביוני 2026 · הכלים האלה משתנים מהר — אם משהו נראה אצלכם קצת אחרת, זה נורמלי לגמרי. ↓</p>
+</div>
+
+<!-- ═══ מסלול מהיר ═══ -->
+<div class="fasttrack">
+  <div class="fasttrack-card">
+    <h2>⚡ ממהרים? המסלול המהיר</h2>
+    <p>רוצים פשוט אפליקציה עובדת כמה שיותר מהר? עברו ישר על שלושת השלבים האלה. כל השאר זה העמקה שאפשר לקרוא אחר כך.</p>
+    <div class="ft-steps">
+      <a class="ft-step" href="#ch4"><span class="n">1</span><span class="tx"><b>נכנסים</b><span>חשבון גוגל וזהו</span></span></a>
+      <a class="ft-step" href="#ch5"><span class="n">2</span><span class="tx"><b>בונים</b><span>מתארים — וזה קם</span></span></a>
+      <a class="ft-step" href="#ch8"><span class="n">3</span><span class="tx"><b>משתפים</b><span>קישור לכל אחד</span></span></a>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ מד התקדמות-מסע ═══ -->
+<nav class="journey" aria-label="התקדמות במדריך">
+  <div class="journey-inner" id="journey">
+    <span class="mile" data-mile="ch4"><span class="mk">✓</span>נכנסתי</span>
+    <span class="mile-sep" aria-hidden="true"></span>
+    <span class="mile" data-mile="ch5"><span class="mk">✓</span>בניתי</span>
+    <span class="mile-sep" aria-hidden="true"></span>
+    <span class="mile" data-mile="ch6"><span class="mk">✓</span>שיניתי</span>
+    <span class="mile-sep" aria-hidden="true"></span>
+    <span class="mile" data-mile="ch8"><span class="mk">✓</span>פרסמתי</span>
+  </div>
+</nav>
+
+<main id="main">
+
+<!-- ═══════════════ פרק 1 — שלוש הבטחות ═══════════════ -->
+<section id="ch1">
+  <div class="sec-head"><span class="sec-num">1</span><h2>רגע לפני שמתחילים: שלוש הבטחות</h2></div>
+  <div class="meta-chips"><span class="mchip">⏱️ 3 דקות קריאה</span><span class="mchip">😌 קל מאוד</span><span class="mchip free">💸 חינם</span></div>
+  <p class="lead">אם אי פעם חשבתם "זה לא בשבילי, אני לא טכני/ת" — הפרק הזה בשבילכם. לפני שנגע בכלל במקלדת, בואו ננטרל את שלושת הפחדים הכי נפוצים.</p>
+
+  <div class="tip do"><span class="ti">💸</span><div><span class="tt">הבטחה 1 — זה לא יעלה לכם כסף</span>
+    <p>נתחיל בלי כרטיס אשראי, בלי תשלום, בלי "תקופת ניסיון" שמחייבת אתכם בסוף. רואים את המונה הקטן למעלה שכתוב בו <strong>₪0.00</strong>? הוא ילווה אתכם לאורך כל המדריך — ויישאר על אפס כל הדרך. רק בפרק 9 נסביר מתי בכלל ייתכן שמישהו ירצה לשלם.</p></div></div>
+
+  <div class="tip do"><span class="ti">🧠</span><div><span class="tt">הבטחה 2 — אתם לא צריכים לדעת לתכנת</span>
+    <p>זה כל הרעיון של <button class="term" data-term="vibe">וייב קודינג</button>: אתם מדברים בעברית (או אנגלית) ומתארים מה אתם רוצים — והבינה המלאכותית כותבת את <button class="term" data-term="code">הקוד</button> בשבילכם. לא תראו קוד, לא תכתבו קוד, לא צריך להבין קוד.</p></div></div>
+
+  <div class="tip do"><span class="ti">🛟</span><div><span class="tt">הבטחה 3 — אי אפשר לשבור כלום</span>
+    <p>זה ארגז חול פרטי שלכם. שום דבר במחשב שלכם לא משתנה, ושום דבר לא "נהרס". במקרה הכי גרוע — לוחצים "התחל מחדש" ומתחילים נקי. אין טעות שאי אפשר לתקן.</p></div></div>
+
+  <div class="plain"><span class="pl">💡 במילים פשוטות</span>
+    <p>תחשבו על עצמכם כעל <strong>הבמאי/ת</strong> של סרט. הבינה המלאכותית היא הצוות שמבצע בפועל. אתם לא צריכים לדעת איך מחזיקים מצלמה — אתם רק אומרים מה אתם רוצים לראות.</p></div>
+</section>
+
+<!-- ═══════════════ פרק 2 — מה זה וייב קודינג ═══════════════ -->
+<section id="ch2">
+  <div class="sec-head"><span class="sec-num">2</span><h2>מה זה בכלל "וייב קודינג"?</h2></div>
+  <div class="meta-chips"><span class="mchip">⏱️ 4 דקות</span><span class="mchip">😌 קל</span><span class="mchip">📖 רעיון מרכזי</span></div>
+  <p class="lead">המונח "Vibe Coding" נטבע בתחילת 2025 על ידי חוקר בשם אנדריי קרפתי. בעברית אפשר לקרוא לזה "תכנות לפי תחושה" — אבל מה זה אומר בפועל?</p>
+
+  <h3>הרעיון בלולאה אחת פשוטה</h3>
+  <p>וייב קודינג עובד במעגל קצר שחוזר על עצמו עד שמרוצים:</p>
+  <div class="flow">
+    <div class="fstep"><span class="sn">1</span><div class="sc"><b>אתם מתארים</b> במילים מה אתם רוצים. למשל: "תבנה לי דף עם השם שלי ושלושה כפתורים".</div></div>
+    <div class="fstep"><span class="sn">2</span><div class="sc"><b>הבינה המלאכותית בונה</b> — היא כותבת את הקוד ומראה לכם תצוגה חיה תוך שניות.</div></div>
+    <div class="fstep"><span class="sn">3</span><div class="sc"><b>אתם בודקים את התוצאה</b> — מסתכלים על המסך, לוחצים, מנסים. בדיוק כמו משתמש רגיל.</div></div>
+    <div class="fstep"><span class="sn coral">4</span><div class="sc"><b>אתם אומרים מה לשנות</b> — "הכפתור גדול מדי", "תוסיף תמונה". וחוזר חלילה, עד שזה מושלם.</div></div>
+  </div>
+
+  <p>הנה איך זה נראה — צד אחד מה שאתם כותבים, וצד שני מה שמתקבל. את הרכיב הזה תפגשו שוב ושוב לאורך המדריך:</p>
+  <div class="live">
+    <div class="live-in"><span class="ttl">⌨️ מה שאתם כותבים</span>
+      <div class="bubble"><span class="you">אתם:</span>תבנה לי דף קישורים אישי עם השם שלי, תמונה עגולה למעלה, ושלושה כפתורים: אתר, אינסטגרם, וואטסאפ.</div></div>
+    <div class="live-arrow"><span class="a">←</span><span>ה-AI בונה</span></div>
+    <div class="live-out win"><div class="win-bar"><span class="d d1"></span><span class="d d2"></span><span class="d d3"></span><span class="url">my-page.app</span></div>
+      <div class="win-body"><div class="demo-linkpage"><div class="ava">ת</div><div class="nm">תום הגלעדי</div><div class="ro">מרצה ויועץ בינה מלאכותית</div><span class="lk">🌐 האתר שלי</span><span class="lk">📸 אינסטגרם</span><span class="lk c">💬 וואטסאפ</span></div></div></div>
+  </div>
+
+  <h3>שינוי התפיסה הכי חשוב</h3>
+  <p><strong>אתם שופטים את התוצאה — לא את הקוד.</strong> אתם אף פעם לא קוראים קוד. אתם מסתכלים על המסך ואומרים "הכותרת צריכה להיות גדולה יותר". זהו. זה כל ההבדל בין וייב קודינג לבין תכנות מסורתי.</p>
+
+  <div class="dogrid">
+    <div class="tip do"><span class="ti">✅</span><div><span class="tt">מצוין בשביל</span><p>פרויקטים אישיים, אבטיפוסים (גרסאות ניסיון), רעיונות שרוצים לבדוק מהר, כלים קטנים לעצמכם או לכיתה.</p></div></div>
+    <div class="tip dont"><span class="ti">⚠️</span><div><span class="tt">שווה זהירות</span><p>אפליקציה אמיתית שמטפלת בכסף או במידע רגיש של אנשים אחרים — כדאי שמישהו טכני יעבור עליה לפני שמשתמשים בה ברצינות.</p></div></div>
+  </div>
+
+  <div class="plain"><span class="pl">💡 במילים פשוטות</span>
+    <p>זה כמו להזמין חליפה אצל חייט. אתם לא תופרים כלום — אתם רק אומרים "קצר מדי בשרוול", "צר מדי במותן", עד שזה יושב מושלם. החייט עושה את כל העבודה.</p></div>
+</section>
+
+<!-- ═══════════════ פרק 3 — איפה אני? ═══════════════ -->
+<section id="ch3">
+  <div class="sec-head"><span class="sec-num">3</span><h2>רגע, איפה אני? ג'מיני מול AI Studio מול השאר</h2></div>
+  <div class="meta-chips"><span class="mchip">⏱️ 3 דקות</span><span class="mchip">😌 קל</span><span class="mchip">🧭 מנטרל בלבול</span></div>
+  <p class="lead">זה הבלבול מספר אחת של מתחילים. לגוגל יש כמה מוצרי בינה מלאכותית עם שמות דומים. בואו נעשה סדר — ונדע על איזו "דלת" ללחוץ.</p>
+
+  <div class="compare">
+    <div class="crow"><span class="cn">Gemini</span><span class="cd">לשוחח, לשאול שאלות, לכתוב. כמו צ'אט.</span><span class="ct">לא אנחנו</span></div>
+    <div class="crow us"><span class="cn">Google AI Studio</span><span class="cd">לבנות אפליקציות אמיתיות שאפשר ללחוץ עליהן. ← כאן בונים.</span><span class="ct">★ זה אנחנו</span></div>
+    <div class="crow"><span class="cn">Gemini API</span><span class="cd">בשביל מתכנתים שכותבים קוד משלהם.</span><span class="ct">לא אנחנו</span></div>
+    <div class="crow"><span class="cn">Vertex AI</span><span class="cd">בשביל חברות גדולות וצוותי מחשוב.</span><span class="ct">לא אנחנו</span></div>
+  </div>
+
+  <div class="plain"><span class="pl">💡 במילים פשוטות</span>
+    <p>אם אתם רוצים לבנות משהו שאפשר ללחוץ עליו — אתם רוצים <strong>Google AI Studio</strong>. זהו. אפשר לשכוח מכל השאר. (וכן: <button class="term" data-term="gemini">Gemini</button> הצ'אט מצוין לשאלות יומיומיות, אבל הוא לא בונה אפליקציות.)</p></div>
+</section>
+
+<!-- ═══════════════ פרק 4 — ההכנה ═══════════════ -->
+<section id="ch4">
+  <div class="sec-head"><span class="sec-num">4</span><h2>ההכנה: כל מה שצריך זה חשבון גוגל</h2></div>
+  <div class="meta-chips"><span class="mchip">⏱️ 2 דקות</span><span class="mchip">😌 קל מאוד</span><span class="mchip free">💸 חינם · בלי כרטיס אשראי</span></div>
+  <p class="lead">אין מה להוריד, אין מה להתקין. הכל קורה בתוך הדפדפן. אם יש לכם כתובת גוגל (Gmail) — אתם מוכנים.</p>
+
+  <div class="flow">
+    <div class="fstep"><span class="sn">1</span><div class="sc"><b>פותחים דפדפן</b> (כרום, אדג', ספארי — כל אחד מתאים).</div></div>
+    <div class="fstep"><span class="sn">2</span><div class="sc"><b>נכנסים לכתובת:</b></div></div>
+  </div>
+  <div class="url-block"><span class="u">aistudio.google.com</span><a class="copy-btn" href="https://aistudio.google.com" target="_blank" rel="noopener">פתחו ↗</a></div>
+  <div class="flow">
+    <div class="fstep"><span class="sn">3</span><div class="sc"><b>מתחברים עם חשבון גוגל</b> — בדיוק כמו שנכנסים ל-Gmail.</div></div>
+    <div class="fstep"><span class="sn coral">4</span><div class="sc"><b>זהו. אתם בפנים.</b> לוחצים על <code>Build</code> (בנייה) ומתחילים. את זה נעשה בפרק הבא.</div></div>
+  </div>
+
+  <h3>סיור מהיר במסך</h3>
+  <p>ככה ייראה המסך הראשי: בצד אחד כותבים מה רוצים, ובצד השני רואים את התוצאה החיה. אל תיבהלו מכפתורים — אנחנו צריכים רק את שני האזורים האלה.</p>
+  <div class="live">
+    <div class="live-in"><span class="ttl">⌨️ כאן כותבים מה רוצים</span>
+      <div class="bubble">תאר/י כאן את האפליקציה שלך בשפה חופשית...</div></div>
+    <div class="live-arrow"><span class="a">←</span><span>בלחיצה</span></div>
+    <div class="live-out win"><div class="win-bar"><span class="d d1"></span><span class="d d2"></span><span class="d d3"></span><span class="url">תצוגה חיה</span></div>
+      <div class="win-body" style="display:flex;align-items:center;justify-content:center;color:var(--ink-mute);text-align:center;font-size:.9rem">כאן רואים את<br>האפליקציה שלכם<br>קמה לחיים ✨</div></div>
+  </div>
+
+  <div class="tip dont"><span class="ti">🚫</span><div><span class="tt">אל תתחילו מהמקום הלא נכון</span><p>אם אתם רואים אפשרויות כמו <code>API Keys</code> או הגדרות מתקדמות — תתעלמו מהן בינתיים. הן מבלבלות ולא צריך אותן עכשיו. לחצו פשוט על <code>Build</code>.</p></div></div>
+
+  <div class="recap"><span class="ri">🎉</span><div><b>מה הרווחתם:</b> אתם בתוך הכלי, מחוברים, ומוכנים לבנות.</div><span class="bill">עדיין ₪0</span></div>
+</section>
+
+<!-- ═══════════════ פרק 5 — האפליקציה הראשונה ═══════════════ -->
+<section id="ch5">
+  <div class="sec-head"><span class="sec-num">5</span><h2>האפליקציה הראשונה שלכם — בעשר דקות</h2></div>
+  <div class="meta-chips"><span class="mchip">⏱️ 10 דקות</span><span class="mchip">😊 קל</span><span class="mchip free">💸 חינם</span><span class="mchip">⭐ השיא</span></div>
+  <p class="lead">זהו הרגע. נבנה יחד אפליקציה אמיתית — <strong>"דף הקישורים האישי שלי"</strong>: עמוד אינטרנט קטן עם השם שלכם, תמונה, וכמה כפתורים. בחרנו אותו כי הוא יפה, אישי, ואפשר לשתף אותו עם כולם.</p>
+
+  <h3>שלב ראשון: מעתיקים את הפרומפט הזה</h3>
+  <p><button class="term" data-term="prompt">פרומפט</button> הוא פשוט הבקשה שאתם כותבים לבינה המלאכותית. הכינו לכם אחד מוכן — לחצו "העתקתי", הדביקו ב-AI Studio בתיבת ה-Build, והחליפו את מה שבסוגריים בפרטים שלכם:</p>
+  <div class="prompt">
+    <div class="ph"><span class="lbl">📋 הפרומפט הראשון שלכם</span><button class="copy-btn" data-copy>העתקתי</button></div>
+    <textarea rows="5" spellcheck="false">תבנה לי דף קישורים אישי בעברית. למעלה: תמונה עגולה, השם שלי "[השם שלכם]", ותת-כותרת "[מה אתם עושים]". מתחת: שלושה כפתורים גדולים וברורים — "האתר שלי", "אינסטגרם", ו"דברו איתי בוואטסאפ". עיצוב נקי, צבעים חמים, ושיתאים גם לטלפון.</textarea>
+  </div>
+
+  <div class="live">
+    <div class="live-in"><span class="ttl">⌨️ מה שכתבתם</span><div class="bubble">תבנה לי דף קישורים אישי בעברית...</div></div>
+    <div class="live-arrow"><span class="a">←</span><span>10 שניות</span></div>
+    <div class="live-out win"><div class="win-bar"><span class="d d1"></span><span class="d d2"></span><span class="d d3"></span><span class="url">live preview</span></div>
+      <div class="win-body"><div class="demo-linkpage"><div class="ava">😊</div><div class="nm">[השם שלכם]</div><div class="ro">[מה אתם עושים]</div><span class="lk">🌐 האתר שלי</span><span class="lk">📸 אינסטגרם</span><span class="lk c">💬 וואטסאפ</span></div></div></div>
+  </div>
+
+  <h3>עכשיו עוקבים אחרי הצ'קליסט</h3>
+  <p>סמנו כל שלב כשסיימתם אותו. אפשר לעצור ולחזור — ההתקדמות נשמרת אצלכם בדפדפן.</p>
+
+  <div class="checklist" id="checklist">
+    <div class="cl-head">
+      <div class="cl-ring" id="clRing"><div class="inner" id="clRingTxt">0%</div></div>
+      <div class="t"><b id="clTitle">בואו נתחיל!</b><span id="clCount">0 מתוך 5 שלבים</span></div>
+    </div>
+    <label class="cl-item"><input type="checkbox" data-ck="1"><span class="ci"><b>לחצתי על Build</b> והדבקתי את הפרומפט בתיבה.</span></label>
+    <label class="cl-item"><input type="checkbox" data-ck="2"><span class="ci"><b>לחצתי "הרץ" (Run / חץ)</b> וחיכיתי שה-AI יבנה. (הוא כותב עכשיו את הקוד בשבילכם 🪄)</span></label>
+    <label class="cl-item"><input type="checkbox" data-ck="3"><span class="ci"><b>ראיתי תצוגה חיה</b> של הדף שלי. זה רגע ה-"וואו" 🎉</span></label>
+    <label class="cl-item"><input type="checkbox" data-ck="4"><span class="ci"><b>החלפתי את הפרטים</b> בסוגריים בשם ובכיתוב האמיתיים שלי.</span></label>
+    <label class="cl-item"><input type="checkbox" data-ck="5"><span class="ci"><b>ביקשתי שינוי ראשון</b> — כתבתי בצ'אט "תוסיף תמונה שלי למעלה" וראיתי שזה עובד.</span></label>
+    <button class="cl-reset" id="clReset">איפוס הצ'קליסט</button>
+  </div>
+
+  <div class="recap"><span class="ri">🏆</span><div><b>מה הרווחתם:</b> יש לכם אפליקציה עובדת ואמיתית. בניתם אותה בעצמכם, בלי שורת קוד אחת.</div><span class="bill">עדיין ₪0</span></div>
+</section>
+
+<!-- ═══════════════ פרק 6 — לדבר עם המכונה ═══════════════ -->
+<section id="ch6">
+  <div class="sec-head"><span class="sec-num">6</span><h2>לדבר עם המכונה: איך מבקשים שינויים</h2></div>
+  <div class="meta-chips"><span class="mchip">⏱️ 4 דקות</span><span class="mchip">😊 קל</span><span class="mchip">🎯 הכי שימושי</span></div>
+  <p class="lead">היכולת הכי חשובה בוייב קודינג היא לא טכנית בכלל — היא איך לבקש. הנה הכלל הזהב והדרכים השונות לבקש שינוי.</p>
+
+  <div class="tip note"><span class="ti">🥇</span><div><span class="tt">כלל הזהב: שינוי אחד-שניים בכל פעם</span><p>אל תכתבו בקשת ענק עם עשרים דרישות. תבקשו שינוי קטן, תסתכלו על התוצאה, ואז תבקשו את הבא. צעדים קטנים = תוצאות מדויקות. בקשות ענק = בלאגן.</p></div></div>
+
+  <h3>שלוש דרכים לבקש שינוי</h3>
+  <div class="flow">
+    <div class="fstep"><span class="sn">1</span><div class="sc"><b>בכתב, בצ'אט</b> — פשוט כותבים: "תשנה את צבע הרקע לכחול בהיר". הדרך הכי נפוצה.</div></div>
+    <div class="fstep"><span class="sn">2</span><div class="sc"><b>סימון על המסך (Annotation)</b> — מצביעים על אלמנט ומסמנים אותו, ואומרים מה לשנות בו. כמו לצייר חץ על תמונה.</div></div>
+    <div class="fstep"><span class="sn">3</span><div class="sc"><b>מצב עיצוב (Design Mode)</b> — לוחצים על אלמנט (כמו כפתור) ומשנים את הצבע או הגודל ישירות, בלי לכתוב כלום.</div></div>
+  </div>
+
+  <div class="dogrid">
+    <div class="tip dont"><span class="ti">🚫</span><div><span class="tt">בקשה מעורפלת</span><p>"תעשה שיהיה יפה" — ה-AI לא יודע מה זה "יפה" בשבילכם.</p></div></div>
+    <div class="tip do"><span class="ti">✅</span><div><span class="tt">בקשה ברורה</span><p>"תשנה את צבע הרקע לכחול בהיר ותגדיל את הכותרת הראשית."</p></div></div>
+  </div>
+
+  <div class="plain"><span class="pl">💡 במילים פשוטות</span>
+    <p>דברו איתו כמו עם מתלמד/ה חרוץ אבל מילולי מאוד: ככל שתהיו ספציפיים, כך תקבלו בדיוק את מה שרציתם. הוא לא קורא מחשבות — אבל הוא מבצע נהדר הוראות ברורות.</p></div>
+</section>
+
+<!-- ═══════════════ פרק 7 — כשמשהו משתבש ═══════════════ -->
+<section id="ch7">
+  <div class="sec-head"><span class="sec-num">7</span><h2>כשמשהו משתבש (וזה בסדר גמור)</h2></div>
+  <div class="meta-chips"><span class="mchip">⏱️ 3 דקות</span><span class="mchip">😊 קל</span><span class="mchip">🩹 הרגעה</span></div>
+  <p class="lead">טעויות הן חלק מהמשחק, לא סימן שעשיתם משהו לא בסדר. גם מתכנתים ותיקים נתקלים בהן כל הזמן. הנה שלוש התקלות הנפוצות — וכמה פשוט לפתור אותן.</p>
+
+  <div class="tip note"><span class="ti">⏳</span><div><span class="tt">"שגיאת מכסה" / הודעה עם המספר 429</span><p>זה אומר שביקשתם יותר מדי, מהר מדי. <button class="term" data-term="quota">המכסה החינמית</button> נגמרה לרגע. הפתרון: לחכות דקה ולנסות שוב. זה לא עולה כסף וזה לא תקלה אצלכם.</p></div></div>
+
+  <div class="tip note"><span class="ti">🔄</span><div><span class="tt">התצוגה התקלקלה / "הקוד הסתבך"</span><p>לפעמים אחרי הרבה שינויים הדברים מתבלגנים. הפתרון הכי טוב: לפתוח צ'אט חדש ולתאר מחדש מאפס. לפעמים דף חלק עדיף על ניסיון לתקן את הבלאגן.</p></div></div>
+
+  <div class="tip note"><span class="ti">🤔</span><div><span class="tt">"הוא לא הבין אותי"</span><p>פרקו את הבקשה לחתיכה קטנה יותר. במקום "תבנה אפליקציה שלמה לניהול לקוחות" — "תבנה טבלה עם שמות". צעד-צעד.</p></div></div>
+
+  <div class="tip dont"><span class="ti">🧘</span><div><span class="tt">מה לא לעשות</span><p>אל תילחצו ואל תתחילו ללחוץ על כל הכפתורים מתוך פאניקה. עצרו, קראו את ההודעה, נסו שוב. רוב התקלות נפתרות בכמה שניות.</p></div></div>
+</section>
+
+<!-- ═══════════════ פרק 8 — לשתף עם העולם ═══════════════ -->
+<section id="ch8">
+  <div class="sec-head"><span class="sec-num">8</span><h2>לשתף עם העולם: פרסום בלחיצה אחת</h2></div>
+  <div class="meta-chips"><span class="mchip">⏱️ 3 דקות</span><span class="mchip">😊 קל</span><span class="mchip free">💸 חינם</span></div>
+  <p class="lead">בניתם משהו — עכשיו בואו נהפוך אותו לכתובת אינטרנט אמיתית שאפשר לשלוח לכל אחד. זה נקרא <button class="term" data-term="deploy">פריסה (Deploy)</button>, וזו לחיצת כפתור.</p>
+
+  <div class="flow">
+    <div class="fstep"><span class="sn">1</span><div class="sc"><b>מחפשים את כפתור הפרסום</b> — בדרך כלל כתוב עליו <code>Deploy</code> או <code>Share</code>.</div></div>
+    <div class="fstep"><span class="sn">2</span><div class="sc"><b>לוחצים פעם אחת</b> ומחכים כמה רגעים בזמן שגוגל מעלה את האפליקציה לאוויר.</div></div>
+    <div class="fstep"><span class="sn coral">3</span><div class="sc"><b>מקבלים כתובת אינטרנט אמיתית</b> — קישור שאפשר לשלוח לכל אחד, מכל מקום בעולם.</div></div>
+  </div>
+
+  <div class="url-block"><span class="u">https://my-link-page-abc123.run.app</span><span style="color:var(--green);font-weight:700;white-space:nowrap">חי באוויר ✓</span></div>
+
+  <div class="tip do"><span class="ti">📲</span><div><span class="tt">עשו את זה עכשיו</span><p>שלחו את הקישור לחבר/ה ברגע זה. בניתם אפליקציה אמיתית שחיה באינטרנט — וזה הרגע להרגיש את זה.</p></div></div>
+
+  <div class="recap"><span class="ri">🌍</span><div><b>מה הרווחתם:</b> האפליקציה שלכם חיה באינטרנט עם כתובת לשיתוף. הפרסום הראשון נכלל בחבילת ההתחלה החינמית (בערך <button class="term" data-term="starter">2 אפליקציות חינם</button>).</div><span class="bill">עדיין ₪0</span></div>
+</section>
+
+<!-- ═══════════════ פרק 9 — האם אצטרך לשלם ═══════════════ -->
+<section id="ch9">
+  <div class="sec-head"><span class="sec-num">9</span><h2>רגע האמת: האם אי־פעם אצטרך לשלם?</h2></div>
+  <div class="meta-chips"><span class="mchip">⏱️ 4 דקות</span><span class="mchip">😊 קל</span><span class="mchip">💰 חשוב</span></div>
+  <p class="lead">השאלה ששווה זהב. התשובה הקצרה: כמעט תמיד — לא. הנה התשובה המלאה, בלי הפתעות.</p>
+
+  <div class="bigfree"><div class="num">₪0</div><p>כל מה שעשינו עד עכשיו — להיכנס, לבנות, לשנות, ואפילו לפרסם — <strong>חינם לגמרי</strong>. בלי כרטיס אשראי.</p></div>
+
+  <h3>משלמים רק אם...</h3>
+  <p>יש בדיוק שלושה מצבים שבהם מישהו עשוי לרצות לשלם. כל עוד אתם לא באחד מהם — אתם נשארים בחינם:</p>
+  <div class="pay-when">
+    <div class="pw"><div class="pwl">א</div><b>האפליקציה נהיית פופולרית</b><span>הרבה מאוד אנשים משתמשים בה בו-זמנית וחורגים מהמכסה החינמית הנדיבה.</span></div>
+    <div class="pw"><div class="pwl">ב</div><b>רוצים את הדגם הכי חכם</b><span>ה<button class="term" data-term="model">דגם</button> החינמי (מסוג Flash) מצוין לרוב הדברים. הדגמים החכמים במיוחד דורשים תשלום.</span></div>
+    <div class="pw"><div class="pwl">ג</div><b>רוצים פרטיות מלאה</b><span>ברובד החינמי, גוגל עשויה להשתמש בבקשות שלכם כדי לשפר את הבינה. הפעלת תשלום עוצרת את זה.</span></div>
+  </div>
+
+  <div class="tip note"><span class="ti">🏷️</span><div><span class="tt">כמה זה עולה כשכן משלמים?</span><p>המחירים ושמות הדגמים משתנים אצל גוגל לעיתים קרובות, אז לא נדפיס כאן מספר שיתיישן. כשתגיעו לשלב הזה (ורובכם לא תגיעו), בדקו את המספרים המדויקים והעדכניים כאן:
+    <a class="live-link" href="https://ai.google.dev/gemini-api/docs/pricing" target="_blank" rel="noopener">מחירון גוגל הרשמי</a><span class="upd-tag">מתעדכן</span>
+    ואת המכסות החינמיות כאן:
+    <a class="live-link" href="https://aistudio.google.com/usage" target="_blank" rel="noopener">המכסות שלכם</a><span class="upd-tag">מתעדכן</span>.</p></div></div>
+
+  <div class="plain"><span class="pl">💡 במילים פשוטות</span>
+    <p>כל עוד זה פרויקט אישי שאתם וכמה חברים משחקים בו — סביר מאוד שלא תשלמו שקל. תשלום נכנס לתמונה רק כשמשהו שלכם הופך ל"גדול ורציני".</p></div>
+</section>
+
+<!-- ═══════════════ פרק 10 — כללי הזהב ═══════════════ -->
+<section id="ch10">
+  <div class="sec-head"><span class="sec-num">10</span><h2>כללי הזהב: מה כן ומה לא לעשות</h2></div>
+  <div class="meta-chips"><span class="mchip">⏱️ 3 דקות</span><span class="mchip">🛡️ בטיחות</span></div>
+  <p class="lead">כמה כללים פשוטים שישמרו עליכם רגועים — ועל הארנק סגור.</p>
+
+  <div class="dogrid">
+    <div class="tip dont"><span class="ti">🔒</span><div><span class="tt">לא להדביק מידע רגיש</span><p>אל תכניסו תעודות זהות, סיסמאות, או מידע אישי של אנשים אחרים ברובד החינמי — ייתכן שהוא ישמש לאימון.</p></div></div>
+    <div class="tip dont"><span class="ti">💳</span><div><span class="tt">לא להפעיל תשלום "ליתר ביטחון"</span><p>הפעלת חיוב (Billing) היא בדיוק מה שגורם לעלויות. השאירו אותה כבויה עד שבאמת תצטרכו.</p></div></div>
+    <div class="tip do"><span class="ti">👀</span><div><span class="tt">כן לבקש בדיקה</span><p>אפליקציה שמטפלת בכסף או בלקוחות אמיתיים? בקשו ממישהו טכני לעבור עליה לפני שימוש רציני.</p></div></div>
+    <div class="tip do"><span class="ti">🧪</span><div><span class="tt">כן להתנסות בלי פחד</span><p>זה ארגז חול. נסו, שברו, התחילו מחדש. ככה לומדים הכי מהר.</p></div></div>
+  </div>
+</section>
+
+<!-- ═══════════════ פרק 11 — לאן ממשיכים ═══════════════ -->
+<section id="ch11">
+  <div class="sec-head"><span class="sec-num">11</span><h2>לאן ממשיכים מכאן</h2></div>
+  <div class="meta-chips"><span class="mchip">⏱️ 2 דקות</span><span class="mchip">🚀 הצעדים הבאים</span></div>
+  <p class="lead">בניתם אפליקציה ראשונה — מעולה! עכשיו הכי כיף פשוט להתנסות. הנה כמה רעיונות קטנים לבנות בעצמכם (כל אחד הוא פרומפט מוכן בארגז הפרומפטים למטה):</p>
+
+  <div class="ideas">
+    <div class="idea"><span class="ii">🎉</span><div><b>מחולל ברכות</b><span>כותבים נושא — ומקבלים ברכה מנוסחת יפה.</span></div></div>
+    <div class="idea"><span class="ii">⏲️</span><div><b>טיימר לאירוע</b><span>ספירה לאחור לתאריך חשוב.</span></div></div>
+    <div class="idea"><span class="ii">✅</span><div><b>רשימת מטלות</b><span>הקלאסיקה — מוסיפים, מסמנים, מוחקים.</span></div></div>
+    <div class="idea"><span class="ii">🎡</span><div><b>גלגל הגרלה לכיתה</b><span>בוחר שם אקראי מתוך רשימה.</span></div></div>
+    <div class="idea"><span class="ii">❓</span><div><b>חידון קצר</b><span>שאלות ותשובות עם ניקוד.</span></div></div>
+    <div class="idea"><span class="ii">📱</span><div><b>אפליקציית אנדרואיד</b><span>מאז מאי 2026 אפשר לבנות גם אפליקציות לטלפון!</span></div></div>
+  </div>
+
+  <div class="tip note"><span class="ti">📚</span><div><span class="tt">רוצים לצלול לעומק?</span><p>כשתרגישו בנוח ותרצו להכיר את כל היכולות המתקדמות של AI Studio (דגמים שונים, יצירת תמונות ווידאו, כלים מקצועיים) — יש לתום מדריך מתקדם ומפורט. בקשו ממנו את הקישור.</p></div></div>
+</section>
+
+<!-- ═══════════════ נספח A — מילון ═══════════════ -->
+<section id="glossary">
+  <div class="sec-head"><span class="sec-num">A</span><h2>מילון מונחים מפחידים</h2></div>
+  <p class="lead">כל מילה "טכנית" שתפגשו — בעברית פשוטה. אין כאן שום דבר שצריך לשנן.</p>
+  <dl class="glos-list">
+    <div class="glos-card"><dt>וייב קודינג <span class="en">Vibe Coding</span></dt><dd>לבנות תוכנה על ידי תיאור במילים, בלי לכתוב קוד. אתם מתארים — והבינה בונה.</dd></div>
+    <div class="glos-card"><dt>פרומפט <span class="en">Prompt</span></dt><dd>הבקשה או ההוראה שאתם כותבים לבינה המלאכותית. "תבנה לי דף עם..." זה פרומפט.</dd></div>
+    <div class="glos-card"><dt>קוד <span class="en">Code</span></dt><dd>ה"הוראות" שמהן מורכבת תוכנה. בוייב קודינג — הבינה כותבת אותו, אתם לא רואים אותו.</dd></div>
+    <div class="glos-card"><dt>Build / מצב בנייה</dt><dd>החלק ב-AI Studio שבו בונים אפליקציות. הכפתור שאתם מחפשים.</dd></div>
+    <div class="glos-card"><dt>פריסה <span class="en">Deploy</span></dt><dd>להעלות את האפליקציה לאוויר כך שתקבל כתובת אינטרנט שאפשר לשתף.</dd></div>
+    <div class="glos-card"><dt>דגם <span class="en">Model</span></dt><dd>"המוח" של הבינה המלאכותית. יש דגמים מהירים (Flash, חינם) וחכמים-יותר (בתשלום).</dd></div>
+    <div class="glos-card"><dt>מכסה <span class="en">Quota</span></dt><dd>כמה בקשות מותר לכם בחינם בפרק זמן. אם נגמרת — מחכים קצת והיא מתחדשת.</dd></div>
+    <div class="glos-card"><dt>מסד נתונים <span class="en">Database</span></dt><dd>"מחברת" שבה האפליקציה שומרת מידע (למשל הודעות מטופס). נכנס לתמונה רק באפליקציות מתקדמות.</dd></div>
+    <div class="glos-card"><dt>API</dt><dd>דרך למתכנתים לחבר את הבינה לקוד שלהם. כמשתמשי וייב קודינג — לא צריך לגעת בזה.</dd></div>
+  </dl>
+</section>
+
+<!-- ═══════════════ נספח B — שאלות נפוצות ═══════════════ -->
+<section id="faq">
+  <div class="sec-head"><span class="sec-num">B</span><h2>שאלות נפוצות</h2></div>
+  <details class="faq"><summary>באמת לא צריך לדעת לתכנת בכלל?</summary><div class="fa">באמת. אתם מתארים בעברית מה אתם רוצים, והבינה כותבת את הקוד. תפקידכם הוא להסתכל על התוצאה ולהגיד מה לשנות — בדיוק כמו שמזמינים אצל חייט.</div></details>
+  <details class="faq"><summary>זה באמת חינם? איפה הקאץ'?</summary><div class="fa">כן, באמת חינם — להיכנס, לבנות, לשנות ולפרסם אפליקציות קטנות. "תשלום" נכנס לתמונה רק אם האפליקציה נהיית פופולרית מאוד, אם רוצים את הדגם הכי חכם, או אם צריך פרטיות מלאה. ראו פרק 9.</div></details>
+  <details class="faq"><summary>צריך להוריד או להתקין משהו?</summary><div class="fa">לא. הכל קורה בדפדפן באתר aistudio.google.com. צריך רק חשבון גוגל (Gmail).</div></details>
+  <details class="faq"><summary>מה אם אני טועה או הורס משהו?</summary><div class="fa">אי אפשר להרוס כלום. זה ארגז חול פרטי. במקרה הכי גרוע מתחילים צ'אט חדש ובונים מחדש. שום דבר במחשב שלכם לא משתנה.</div></details>
+  <details class="faq"><summary>מה ההבדל בין זה לבין הצ'אט של ג'מיני?</summary><div class="fa">הצ'אט של Gemini נועד לשוחח ולשאול. Google AI Studio נועד לבנות אפליקציות אמיתיות שאפשר ללחוץ עליהן ולשתף. ראו פרק 3.</div></details>
+  <details class="faq"><summary>האפליקציה שלי תישאר באוויר לתמיד?</summary><div class="fa">כל עוד היא בשימוש סביר ובמסגרת החבילה החינמית — כן. אם תפסיקו להשתמש בה לאורך זמן או תחרגו מהמכסות, ייתכן שהיא "תירדם" עד שתשתמשו בה שוב. תמיד אפשר להעלות מחדש.</div></details>
+  <details class="faq"><summary>זה בטוח? מה עם המידע שלי?</summary><div class="fa">ברובד החינמי, אל תכניסו מידע רגיש (תעודות זהות, סיסמאות, מידע על אנשים אחרים) — ייתכן שהוא ישמש לשיפור הבינה. לפרויקטים אישיים זה מצוין. ראו פרק 10.</div></details>
+</section>
+
+<!-- ═══════════════ נספח C — ארגז הפרומפטים ═══════════════ -->
+<section id="prompts">
+  <div class="sec-head"><span class="sec-num">C</span><h2>ארגז הפרומפטים</h2></div>
+  <p class="lead">פרומפטים מוכנים להעתקה. לחצו "העתקתי", הדביקו ב-AI Studio, והחליפו את מה שבסוגריים. אלה רק נקודות פתיחה — שנו אותם כאוות נפשכם.</p>
+
+  <div class="prompt"><div class="ph"><span class="lbl">🔗 דף קישורים אישי</span><button class="copy-btn" data-copy>העתקתי</button></div>
+    <textarea rows="3" spellcheck="false">תבנה לי דף קישורים אישי בעברית עם תמונה עגולה למעלה, השם שלי "[השם שלכם]", תת-כותרת "[מה אתם עושים]", ושלושה כפתורים: אתר, אינסטגרם, וואטסאפ. עיצוב נקי וחם, מתאים גם לטלפון.</textarea></div>
+
+  <div class="prompt"><div class="ph"><span class="lbl">🎉 מחולל ברכות</span><button class="copy-btn" data-copy>העתקתי</button></div>
+    <textarea rows="3" spellcheck="false">תבנה לי אפליקציה בעברית שבה כותבים נושא (יום הולדת, חתונה, פרישה) ומקבלים ברכה יפה ומנוסחת. כפתור "ברכה חדשה" וכפתור "העתקה". עיצוב חגיגי ושמח.</textarea></div>
+
+  <div class="prompt"><div class="ph"><span class="lbl">✅ רשימת מטלות</span><button class="copy-btn" data-copy>העתקתי</button></div>
+    <textarea rows="3" spellcheck="false">תבנה לי אפליקציית רשימת מטלות בעברית: אפשר להוסיף מטלה, לסמן שהושלמה (עם קו חוצה), ולמחוק. שמור את הרשימה כך שלא תיעלם כשסוגרים. עיצוב מינימליסטי ונעים.</textarea></div>
+
+  <div class="prompt"><div class="ph"><span class="lbl">🎡 גלגל הגרלה לכיתה</span><button class="copy-btn" data-copy>העתקתי</button></div>
+    <textarea rows="3" spellcheck="false">תבנה לי גלגל הגרלה בעברית: מדביקים רשימת שמות, לוחצים "סובב", והאפליקציה בוחרת שם אקראי בהדגשה גדולה וצבעונית. אנימציה כיפית. מתאים להקרנה בכיתה.</textarea></div>
+
+  <div class="prompt"><div class="ph"><span class="lbl">⏲️ טיימר לאירוע</span><button class="copy-btn" data-copy>העתקתי</button></div>
+    <textarea rows="3" spellcheck="false">תבנה לי ספירה לאחור בעברית לתאריך "[התאריך שלכם]" עם כותרת "[שם האירוע]". הצג ימים, שעות, דקות ושניות בעיצוב גדול ואלגנטי על רקע יפה.</textarea></div>
+</section>
+
+</main>
+
+<footer>
+  <div class="fbrand">✨ וייב קודינג ב-Google AI Studio</div>
+  <p>מדריך מאת <strong style="color:#fff">תום הגלעדי</strong> — מרצה ויועץ בינה מלאכותית.</p>
+  <p style="margin-top:10px"><a href="#main">חזרה לראש המדריך ↑</a> · <a href="https://aistudio.google.com" target="_blank" rel="noopener">פתחו את AI Studio ↗</a></p>
+  <p class="fnote">נכתב ביוני 2026. הכלים האלה משתנים מהר — אם משהו נראה אצלכם אחרת ממה שכתוב כאן, זה נורמלי לגמרי, והעקרונות נשארים נכונים. בהצלחה, ותהנו! 🚀</p>
+</footer>
+
+<button class="to-top" id="toTop" aria-label="חזרה למעלה">↑</button>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<div class="glos-pop" id="glosPop" role="tooltip"></div>
+
+<script>
+(function(){
+  "use strict";
+  var $=function(s,c){return (c||document).querySelector(s)};
+  var $$=function(s,c){return Array.prototype.slice.call((c||document).querySelectorAll(s))};
+
+  /* ── מצב בהיר/כהה ── */
+  var themeBtn=$("#themeBtn"), root=document.documentElement;
+  function setTheme(t){
+    if(t==="dark"){root.setAttribute("data-theme","dark");themeBtn.textContent="☀️";}
+    else{root.removeAttribute("data-theme");themeBtn.textContent="🌙";}
+    try{localStorage.setItem("vc_theme",t);}catch(e){}
+  }
+  var saved="light";
+  try{saved=localStorage.getItem("vc_theme")||"light";}catch(e){}
+  setTheme(saved);
+  themeBtn.addEventListener("click",function(){
+    setTheme(root.getAttribute("data-theme")==="dark"?"light":"dark");
+  });
+
+  /* ── פס התקדמות גלילה ── */
+  var prog=$("#progress");
+  function onScroll(){
+    var h=document.documentElement, max=h.scrollHeight-h.clientHeight;
+    var p=max>0?(h.scrollTop||document.body.scrollTop)/max:0;
+    prog.style.transform="scaleX("+p+")";
+    toTop.classList.toggle("show",(h.scrollTop||document.body.scrollTop)>600);
+  }
+  window.addEventListener("scroll",onScroll,{passive:true});
+
+  /* ── חזרה למעלה ── */
+  var toTop=$("#toTop");
+  toTop.addEventListener("click",function(){window.scrollTo({top:0,behavior:"smooth"});});
+
+  /* ── אבני דרך (התקדמות-מסע) ── */
+  var miles={};
+  $$(".mile").forEach(function(m){miles[m.getAttribute("data-mile")]=m;});
+  if("IntersectionObserver" in window){
+    var io=new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if(en.isIntersecting && miles[en.target.id]) miles[en.target.id].classList.add("on");
+      });
+    },{rootMargin:"-30% 0px -60% 0px"});
+    ["ch4","ch5","ch6","ch8"].forEach(function(id){var el=document.getElementById(id);if(el)io.observe(el);});
+  }
+
+  /* ── העתקת פרומפטים ── */
+  var toast=$("#toast"), toastT;
+  function showToast(msg){
+    toast.textContent=msg; toast.classList.add("show");
+    clearTimeout(toastT); toastT=setTimeout(function(){toast.classList.remove("show");},1900);
+  }
+  function copyText(txt,cb){
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(txt).then(cb,function(){fallback(txt,cb);});
+    } else fallback(txt,cb);
+  }
+  function fallback(txt,cb){
+    var ta=document.createElement("textarea"); ta.value=txt;
+    ta.style.position="fixed"; ta.style.opacity="0"; document.body.appendChild(ta);
+    ta.select(); try{document.execCommand("copy");}catch(e){} document.body.removeChild(ta); cb();
+  }
+  $$("[data-copy]").forEach(function(btn){
+    btn.addEventListener("click",function(){
+      var box=btn.closest(".prompt"); var ta=box?$("textarea",box):null;
+      if(!ta) return;
+      copyText(ta.value,function(){
+        var orig=btn.textContent;
+        btn.classList.add("done"); btn.textContent="הועתק ✓";
+        showToast("הפרומפט הועתק! עכשיו הדביקו ב-AI Studio ✨");
+        setTimeout(function(){btn.classList.remove("done"); btn.textContent=orig;},2200);
+      });
+    });
+  });
+
+  /* ── צ'קליסט "10 דקות" ── */
+  var boxes=$$('#checklist input[type=checkbox]');
+  var ring=$("#clRing"), ringTxt=$("#clRingTxt"), clCount=$("#clCount"), clTitle=$("#clTitle");
+  var titles=["בואו נתחיל!","התחלה מצוינת 👏","ממשיכים יפה!","חצי דרך — כל הכבוד!","כמעט שם...","🎉 בניתם אפליקציה! כל הכבוד!"];
+  function loadCk(){try{return JSON.parse(localStorage.getItem("vc_checklist")||"{}");}catch(e){return {};}}
+  function saveCk(o){try{localStorage.setItem("vc_checklist",JSON.stringify(o));}catch(e){}}
+  function renderCk(){
+    var state=loadCk(), done=0;
+    boxes.forEach(function(b){
+      var k=b.getAttribute("data-ck"); b.checked=!!state[k];
+      b.closest(".cl-item").classList.toggle("done",b.checked);
+      if(b.checked)done++;
+    });
+    var total=boxes.length, pct=Math.round(done/total*100);
+    if(ring)ring.style.background="conic-gradient(var(--green) "+pct+"%, var(--line) 0)";
+    if(ringTxt)ringTxt.textContent=pct+"%";
+    if(clCount)clCount.textContent=done+" מתוך "+total+" שלבים";
+    if(clTitle)clTitle.textContent=titles[done];
+  }
+  boxes.forEach(function(b){
+    b.addEventListener("change",function(){
+      var state=loadCk(); state[b.getAttribute("data-ck")]=b.checked; saveCk(state); renderCk();
+      if(b.checked && boxes.every(function(x){return x.checked;})) showToast("🏆 סיימתם את כל השלבים! יש לכם אפליקציה אמיתית.");
+    });
+  });
+  var clReset=$("#clReset");
+  if(clReset)clReset.addEventListener("click",function(){saveCk({});renderCk();showToast("הצ'קליסט אופס.");});
+  if(boxes.length)renderCk();
+
+  /* ── מילון: tooltip ── */
+  var GLOS={
+    vibe:["וייב קודינג","לבנות תוכנה בתיאור במילים — בלי לכתוב קוד. אתם מתארים, הבינה בונה."],
+    code:["קוד","ההוראות שמהן מורכבת תוכנה. בוייב קודינג הבינה כותבת אותו ואתם לא צריכים לראות אותו."],
+    prompt:["פרומפט","הבקשה שאתם כותבים לבינה: 'תבנה לי דף עם...' — זה פרומפט."],
+    gemini:["Gemini","הצ'אט של גוגל — מצוין לשאלות וכתיבה, אבל לא בונה אפליקציות. לבנייה משתמשים ב-AI Studio."],
+    deploy:["פריסה (Deploy)","להעלות את האפליקציה לאוויר כך שתקבל כתובת אינטרנט לשיתוף."],
+    quota:["מכסה (Quota)","כמה בקשות מותר בחינם בפרק זמן. אם נגמרת — מחכים דקה והיא מתחדשת."],
+    model:["דגם (Model)","'המוח' של הבינה. דגמי Flash מהירים וחינמיים; הדגמים החכמים במיוחד בתשלום."],
+    starter:["חבילת ההתחלה","הרובד החינמי שמאפשר לפרסם בערך 2 אפליקציות בחינם, בלי כרטיס אשראי."]
+  };
+  var pop=$("#glosPop"), openTerm=null;
+  function placePop(el){
+    var r=el.getBoundingClientRect();
+    pop.style.visibility="hidden"; pop.classList.add("show");
+    var pw=pop.offsetWidth, ph=pop.offsetHeight;
+    var top=r.bottom+8; if(top+ph>window.innerHeight-10) top=r.top-ph-8;
+    var left=r.left+r.width/2-pw/2;
+    left=Math.max(10,Math.min(left,window.innerWidth-pw-10));
+    pop.style.top=top+"px"; pop.style.left=left+"px"; pop.style.visibility="visible";
+  }
+  function showGlos(el){
+    var k=el.getAttribute("data-term"), g=GLOS[k]; if(!g)return;
+    pop.innerHTML="<b>"+g[0]+"</b><br>"+g[1];
+    placePop(el); openTerm=el;
+  }
+  function hideGlos(){pop.classList.remove("show");openTerm=null;}
+  $$(".term").forEach(function(t){
+    t.setAttribute("tabindex","0"); t.setAttribute("role","button");
+    t.addEventListener("click",function(e){e.stopPropagation();(openTerm===t)?hideGlos():showGlos(t);});
+    t.addEventListener("mouseenter",function(){showGlos(t);});
+    t.addEventListener("mouseleave",function(){if(openTerm===t)hideGlos();});
+    t.addEventListener("keydown",function(e){if(e.key==="Enter"||e.key===" "){e.preventDefault();showGlos(t);}if(e.key==="Escape")hideGlos();});
+  });
+  document.addEventListener("click",function(e){if(openTerm && !openTerm.contains(e.target) && !pop.contains(e.target))hideGlos();});
+  window.addEventListener("scroll",function(){if(openTerm)hideGlos();},{passive:true});
+
+  onScroll();
+})();
+</script>
+</body>
+</html>
